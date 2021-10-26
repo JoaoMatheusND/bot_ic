@@ -1,8 +1,10 @@
 import disnake
 import operator
 import embeds
-import strs
+import resources
 from disnake.ext import commands
+from replit import db
+
 
 class Commands(commands.Cog):
   def __init__(self, client):
@@ -51,8 +53,18 @@ class Commands(commands.Cog):
   async def convite(self, ctx):
     await ctx.reply(
       f'Olá {ctx.author.mention}, aqui está o link de convite para o servidor:\n https://discord.gg/TBKwV2BKQg')
-  
-  @commands.command(pass_context=True)
+
+  @commands.command()
+  async def Lista(self, ctx):
+    lista = disnake.Embed(title='Lista de coisas a fazer', description='Reagir com o emote 🔴 pra "pendente", 🟡 pra "em progresso" e 🟢 "pra concluído"', colour=embeds.cor)
+    lista.set_thumbnail(url=embeds.thumb_ic)
+    lista.add_field(name=f"{resources.semaforo[0]}", value=f'{db["r"]}z', inline=False)
+    lista.add_field(name=f"{resources.semaforo[1]}", value=f'{db["y"]}z', inline=False)
+    lista.add_field(name=f"{resources.semaforo[2]}", value=f'{db["g"]}z', inline=False)
+    await ctx.send(embed=lista)
+          
+
+  @commands.command()
   async def grupo(self, ctx, title:str, description:str, amount:int, data:str='sem data'): 
     embed = embeds.ourEmbed(title, description, ctx)
     embed.set_footer(text=f'entragar em {data}')
@@ -62,7 +74,7 @@ class Commands(commands.Cog):
     msg = await ctx.send(embed=embed)
 
     for x in range(amount):
-      await msg.add_reaction(emoji=strs.emoji[x])
+      await msg.add_reaction(emoji=resources.emoji[x])
 
 def setup(bot):
   bot.add_cog(Commands(bot))
