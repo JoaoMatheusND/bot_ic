@@ -37,7 +37,7 @@ ajuda = disnake.Embed(
     description=
     'Caso tenha dúvidas com alguma matéria, marque um **monitor** dessa matéria no canal referente a ela.\nMas se sua dúvida seja relacionada a algo do servidor, marque alguém da **Organização** do servidor no canal #geral, que a gente responde assim que possível.',
     colour=cor)
-ajuda.add_field(name='Monitores', value="Use o comando **!monitores**", inline=True)
+ajuda.add_field(name='Monitores', value="Use o comando **!cargo monitores**", inline=True)
 ajuda.add_field(name='Organização', value="Tercio\nOliver", inline=True)
 ajuda.set_thumbnail(url=thumb_ic)
 

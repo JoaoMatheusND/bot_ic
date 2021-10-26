@@ -1,6 +1,6 @@
 from disnake.ext import commands
 import embeds
-import strs
+import resources
 
 class Events(commands.Cog):
   def __init__(self, client):
@@ -8,7 +8,7 @@ class Events(commands.Cog):
 
   @commands.Cog.listener()
   async def on_ready(self):
-    print(f'{strs.bot_on}')
+    print(f'{resources.bot_on}')
     print(self.bot.user)
 
   @commands.Cog.listener()
@@ -33,13 +33,13 @@ class Events(commands.Cog):
       
       await message.channel.send(embed=embeds.bem_vindo)    
 
-    if any(word in message.content.lower() for word in strs.agradecimentos):
+    if any(word in message.content.lower() for word in resources.agradecimentos):
       if str(self.bot.user.id) in message.content:
         msg = await message.reply('_De nada! Você é um amigo(a), amigo(a)!_')
         #await msg.add_reaction(emoji="🗑️")
 
     """if any(word in message.content.lower()
-      for word in strs.bad_words):  #passar depois para os comandos
+      for word in resources.bad_words):  #passar depois para os comandos
       await message.delete()
       msg = await message.channel.send(
       f'{message.author.mention}, se você continuar, vai ser mutado permanentemente no servidor.'
@@ -56,11 +56,11 @@ class Events(commands.Cog):
     roles = member.roles
     reaction = payload.emoji
 
-    if payload.user_id == self.bot.user.id or channel in strs.channel_block: return
+    if payload.user_id == self.bot.user.id or channel in resources.channel_block: return
 
-    if str(reaction) in strs.emoji:
-      for x in range(strs.num_emoji):
-        if strs.emoji[x] == str(reaction):
+    if str(reaction) in resources.emoji:
+      for x in range(resources.num_emoji):
+        if resources.emoji[x] == str(reaction):
           grupo = []
           embed = message.embeds[0]
           users = await message.reactions[x].users().flatten()
@@ -71,6 +71,13 @@ class Events(commands.Cog):
 
           embed.set_field_at(index=x, name=f'grupo{x+1}', value=f'participantes: {user}', inline=False)
           await message.edit(embed=embed)
+    
+    if str(reaction) == "📌":
+      for x in message.reactions:
+        if x.emoji == "📌":
+          Q_users = await x.users().flatten()
+          if len(Q_users) >= 3:
+            await message.pin()
   
   @commands.Cog.listener()
   async def on_raw_reaction_remove(self,payload):
@@ -81,11 +88,11 @@ class Events(commands.Cog):
     roles = member.roles
     reaction = payload.emoji
   
-    if payload.user_id == self.bot.user.id or channel in strs.channel_block: return
+    if payload.user_id == self.bot.user.id or channel in resources.channel_block: return
 
-    if str(reaction) in strs.emoji:
-      for x in range(strs.num_emoji):
-        if strs.emoji[x] == str(reaction):
+    if str(reaction) in resources.emoji:
+      for x in range(resources.num_emoji):
+        if resources.emoji[x] == str(reaction):
           grupo = []
           embed = message.embeds[0]
           users = await message.reactions[x].users().flatten()
